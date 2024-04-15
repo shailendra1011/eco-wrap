@@ -13,7 +13,7 @@
     <div class="col-lg-12">
         <div class="wrapper wrapper-content" style="min-height: 575px;">
             <div class="row">
-                <div class="col-lg-3">
+                <div class="col-lg-4">
                     <div class="widget style1 navy-bg">
                         <div class="row">
                             <div class="col-4">
@@ -26,7 +26,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3">
+                <div class="col-lg-4">
                     <div class="widget style1 lazur-bg">
                         <div class="row">
                             <div class="col-4">
@@ -39,7 +39,7 @@
                         </div>
                     </div>
                 </div>
-                {{-- <div class="col-lg-3">
+                <div class="col-lg-4">
                     <div class="widget style1 yellow-bg">
                         <div class="row">
                             <div class="col-4">
@@ -48,32 +48,6 @@
                             <div class="col-8 text-right">
                                 <span> Total Earnings </span>
                                 <h2 class="font-bold">100</h2>
-                            </div>
-                        </div>
-                    </div>
-                </div> --}}
-                <div class="col-lg-3">
-                    <div class="widget style1 red-bg" style="background-color: #7d099a;">
-                        <div class="row">
-                            <div class="col-4">
-                                <i class="fa fa-shield fa-5x"></i>
-                            </div>
-                            <div class="col-8 text-right">
-                                <span>Total Subscription Holders</span>
-                                <h2 class="font-bold">0</h2>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="widget style1 blue-bg">
-                        <div class="row">
-                            <div class="col-4">
-                                <i class="fa fa-user fa-5x"></i>
-                            </div>
-                            <div class="col-8 text-right">
-                                <span> Total Drivers </span>
-                                <h2 class="font-bold">{{$count->driver}}</h2>
                             </div>
                         </div>
                     </div>

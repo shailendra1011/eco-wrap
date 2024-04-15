@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name', 'Laravel') }}</title>
-    <link rel="shortcut icon" href="{{ asset('logo.svg') }}" />
+    <link rel="shortcut icon" href="{{ asset('admin/Eco-Wrap.png') }}" />
 
     <link href="{{asset('admin/css/bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{asset('admin/font-awesome/css/font-awesome.css')}}" rel="stylesheet">
@@ -74,42 +74,7 @@
                                 {{Auth::user()->store_status==1?__('StaticWords.vendor.online'):__('StaticWords.vendor.offline')}}</span>
                         </li>
 
-                        <li>
-                            <div class="dropdown">
-                                @if(Request::is('home'))
-                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        @php 
-                                            $languages  =   \App\Language::select('language','language_code')->distinct('language')->get();
-                                        @endphp
-                                        {{ Session::get('locale_language')??"English" }}
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        @foreach($languages as $language)
-                                            <a class="dropdown-item" href="{{ route('enLanguage') }}" onclick="event.preventDefault();
-                                                                        document.getElementById('{{ $language->language_code }}-form').submit();">
-                                                {{ $language->language }}
-                                            </a>
-
-                                            <form id="{{ $language->language_code }}-form" action="{{ route('enLanguage') }}" method="POST" class="d-none">
-                                                @csrf
-                                                <input type="hidden" name="language_code" value="{{ $language->language_code }}">
-                                                <input type="hidden" name="language" value="{{ $language->language  }}">
-                                            </form>
-                                        @endforeach
-                                        <!-- <a class="dropdown-item" href="{{ route('esLanguage') }}" onclick="event.preventDefault();
-                                                                    document.getElementById('es-form').submit();">
-                                            {{ __('Spanish') }}
-                                        </a>
-
-                                        <form id="es-form" action="{{ route('esLanguage') }}" method="POST" class="d-none">
-                                            @csrf
-                                        </form> -->
-
-                                    </div>
-                                @endif
-                            </div>
-                        </li>
+                      
                         <li class=" text-center mr-lg-5"> <span class="m-r-sm text-muted welcome-message">
                             </span>
                         </li>

@@ -4,7 +4,7 @@
             <li class="nav-header">
                 <div class="dropdown profile-element">
                     <img alt="image" class="rounded-circle"
-                        src="{{Auth::user()->image?url(Auth::user()->image):asset('admin/img/logoVector.svg')}}"
+                        src="{{Auth::user()->image?url(Auth::user()->image):asset('admin/Eco-Wrap.png')}}"
                         height="120" width="120" />
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                         <span class="block m-t-xs font-bold" style="margin-left: 14%;">Admin Panel</span>
@@ -27,29 +27,12 @@
                 <a href="{{route('admin.vendor')}}"><i class="fa fa-shopping-cart"></i> <span class="nav-label">Vendor
                         Management</span></a>
             </li>
-            <li class="{{Request::is('admin/subscribed-plans*')?'active':''}}">
-                <a href="#"><i class="fa fa-user"></i> <span class="nav-label">Subscription</span>
-                    <span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level collapse">
-                    <li class="{{Request::is('admin/subscribed-plans/1')?'active':''}}"><a href="{{route('subscribeddata',['type'=>1])}}">Driver</a>
-                    </li>
-                    <li class="{{Request::is('admin/subscribed-plans/2')?'active':''}}"><a
-                            href="{{route('subscribeddata',['type'=>2])}}">Vendor</a></li>
-
-
-                </ul>
-            </li>
+            
             <li class="{{Request::is('admin/user*')?'active':''}}">
                 <a href="{{route('admin.user')}}"><i class="fa fa-user-circle"></i> <span class="nav-label">user
                         Management</span></a>
             </li>
-            <li class="{{Request::is('admin/driver*')?'active':''}}">
-                <a href="{{route('admin.driver')}}"><i class="fa fa-automobile"></i> <span class="nav-label">Driver
-                        Management</span></a>
-            </li>
-            <li class="{{Request::is('admin/coupon*')?'active':''}}">
-                <a href="{{route('admin.coupon.index')}}"><i class="fa fa-dollar"></i> <span class="nav-label">Coupon Codes</span></a>
-            </li>
+          
             <li class="{{Request::is('admin/category*')?'active':''}}">
                 <a href="{{route('admin.category')}}"><i class="fa fa-bandcamp"></i> <span class="nav-label">Category
                         Management</span></a>

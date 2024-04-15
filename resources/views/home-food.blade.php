@@ -1,6 +1,5 @@
 @extends('layouts.main')
 @section('content')
-
 <div class="row m-t-n-md">
     <div class="col-lg-12">
         <div class="wrapper wrapper-content" style="min-height: 575px;">

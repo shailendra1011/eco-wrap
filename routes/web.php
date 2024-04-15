@@ -50,7 +50,7 @@ Route::group(['middleware' => 'setLocalLanguage'], function () {
         Route::post('/subscription', 'Vendor\SubscriptionController@create')->name('subscription.create');
         Route::get('/cancel-subscription', 'Vendor\SubscriptionController@cancel')->name('subscription.cancel');
 
-        Route::group(['middleware' => 'CheckStoreSubscription'], function () {
+        // Route::group(['middleware' => ''], function () {
 
             Route::get('/home', 'HomeController@index')->name('home');
 
@@ -132,6 +132,6 @@ Route::group(['middleware' => 'setLocalLanguage'], function () {
                 })->name('earning');
                 // earningroute end here
             });
-        });
+        // });
     });
 });

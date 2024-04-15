@@ -18,11 +18,9 @@ class DashboardController extends Controller
     {
         $user = User::count();
         $store = Store::count();
-        $driver = Driver::count();
         $data = (object) [
             'user' => $user,
-            'store' => $store,
-            'driver' => $driver
+            'store' => $store
         ];
 
         // $item = OrderProduct::select('product_id', DB::raw(SUM(quantity) as 'totalqunt'))->get();

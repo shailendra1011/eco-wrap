@@ -30,7 +30,6 @@ class Store extends Authenticatable
         'store_url',
         'category_id',
         'password',
-        'store_language',
         'store_status',
         'device_token',
         'stripe_connect_id',

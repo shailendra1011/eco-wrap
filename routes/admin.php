@@ -25,14 +25,6 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
         Route::post('user/update', 'UserController@update')->name('user/update/data');
 
 
-        // Driver Management routes
-        Route::get('driver', 'DriverManagementController@index')->name('admin.driver');
-        Route::post('driver/data', 'DriverManagementController@driverList')->name('driver/data');
-        Route::post('driver/status', 'DriverManagementController@driverStatus')->name('driver/status');
-        Route::get('view/document/{id}', 'DriverManagementController@viewDocument')->name('view/document/{id}');
-        Route::post('accept/document', 'DriverManagementController@acceptDocument')->name('accept/document');
-        Route::post('reject/document', 'DriverManagementController@rejectDocument')->name('reject/document');
-
         // Banner Controller routes
         Route::get('/banners', 'BannerController@index')->name('banner');
         Route::post('/add', 'BannerController@add')->name('banner.add');
@@ -50,16 +42,6 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
         Route::post('add/subcategory', 'CategoryManagementController@addSubCategory')->name('add/subcategory');
         Route::delete('subcategory/{subcategory_id}', 'CategoryManagementController@destroySubcategory')->name('delete/subcategory');
 
-        //create store plan
-        Route::get('/plans', 'StorePlanController@plans');
-        Route::get('/subscribed-plans/{type?}', 'StorePlanController@getSubscribedData')->name('subscribeddata');
-        Route::post('plan/save', 'StorePlanController@storePlan')->name('plan.save');
-
-
-        //  Coupon Code Routes
-        Route::get('coupon/codes','CouponCodeController@couponCodes')->name('admin.coupon.code.list');
-
-        Route::resource('coupon','CouponCodeController')->names('admin.coupon');
 
         Route::resource('faq','FaqController')->names('admin.faq');
 

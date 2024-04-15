@@ -23,13 +23,13 @@
                 <a href="{{route('home')}}"><i class="fa fa-th-large"></i> <span
                         class="nav-label">{{__('StaticWords.vendor.dashboard')}}</span></a>
             </li>
-            <li class="{{Request::is('/')?'active':''}}">
+            <!-- <li class="{{Request::is('/')?'active':''}}">
                 <a href="{{route('store.profile')}}"><i class="fa fa-bank"></i> <span class="nav-label">{{__('StaticWords.vendor.create_business_account')}}</span></a>
-            </li>
-            <li class="{{Request::is('subscription*')?'active':''}}">
+            </li> -->
+            <!-- <li class="{{Request::is('subscription*')?'active':''}}">
                 <a href="{{route('subscription.plan')}}"><i class="fa fa-bank"></i> <span
                         class="nav-label">{{__('StaticWords.vendor.subscription')}}</span></a>
-            </li>
+            </li> -->
             <li class="{{Request::is('products*')?'active':''}}">
                 <a href="{{route('product')}}"><i class="fa fa-shopping-cart"></i> <span
                         class="nav-label">{{__('StaticWords.vendor.product_management')}}</span></a>
@@ -65,18 +65,12 @@
             </li>
             @endif
 
-            <li class="{{Request::is('coupon*')?'active':''}}">
-                <a href="{{route('coupon')}}"><i class="fa fa-shopping-cart"></i> <span
-                        class="nav-label">{{__('StaticWords.vendor.coupon_management')}}</span></a>
-            </li>
-            {{-- <li class="{{Request::is('refund*')?'active':''}}">
-                <a href="{{route('refund')}}"><i class="fa fa-arrows-h"></i> <span
-                        class="nav-label">{{__('StaticWords.vendor.refund')}}</span></a>
-            </li>
+           
+           
             <li class="{{Request::is('earning*')?'active':''}}">
                 <a href="{{route('earning')}}"><i class="fa fa-eur"></i> <span
-                        class="nav-label">{{__('StaticWords.vendor.earning')}}</span></a>
-            </li> --}}
+                        class="nav-label">Total Revenue</span></a>
+            </li> 
 
         </ul>
     </div>
