@@ -23,6 +23,7 @@ class Store extends Authenticatable
         'store_country_code',
         'store_mobile',
         'email',
+        'address',
         'store_latitude',
         'store_longitude',
         'store_address',

@@ -55,15 +55,12 @@ class RegisterController extends Controller
 
        
         return Validator::make($data, [
-            'language' => ['string'],
             'store_image' => ['required'],
-            // 'store_mobile' => ['required'],
-            // 'store_country_code' => ['required', 'regex:/^\+\d{1,3}$/'],
+            'store_mobile' => ['required'],
             'store_name' => ['required', 'nullable', 'string', 'max:255'],
             'category' => ['required'],
+            'address' => ['required'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:stores'],
-            // 'current_location' => ['required'],
-            // 'country'   => ['required','exists:languages,country'],
             'password'  => ['required', 'string', 'min:8', 'confirmed'],
             'password_confirmation' => ['required']
         ]);
@@ -80,22 +77,14 @@ class RegisterController extends Controller
 
 
         $insertStoreData = [
-            $data['language'] == 'en' ? 'store_name' : 'store_name_es' => $data['store_name'],
-            'store_country_code' => $data['store_country_code'],
             'store_mobile' => $data['store_mobile'],
             'email' => $data['email'],
-            'store_latitude' => $data['store_latitude'],
-            'store_longitude' => $data['store_longitude'],
-            'store_address' =>   $data['current_location']??null,
-            'country'       => "india",
+            'address' => $data['address'],   
             'store_url' => $data['store_url'],
             'category_id' => $data['category'],
             'password' => Hash::make($data['password']),
-            'store_language' => $data['language'] == 'en' ? 1 : 2,
-
-
-
         ];
+        // dd($insertStoreData);
         $storeData = Store::create($insertStoreData);
         if ($storeData) {
             $url = uploadImage($data['store_image'], 'storeImage');
