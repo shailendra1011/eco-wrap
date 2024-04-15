@@ -32,9 +32,11 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
+            <img src="{{asset('admin/Eco-Wrap.png')}}" style="height: 60px;width:80px" alt="">
+
+                <!-- <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
-                </a>
+                </a> -->
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
                     data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                     aria-label="{{ __('Toggle navigation') }}">
@@ -43,33 +45,7 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
-                        <div class="dropdown">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                @php 
-                                    $languages  =   \App\Language::select('language','language_code')->distinct('language')->get();
-                                @endphp
-                                {{ Session::get('locale_language')??"English" }}
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-
-                                @foreach($languages as $language)
-                                    <a class="dropdown-item" href="{{ route('enLanguage') }}" onclick="event.preventDefault();
-                                                                document.getElementById('{{ $language->language_code }}-form').submit();">
-                                        {{ $language->language }}
-                                    </a>
-
-                                    <form id="{{ $language->language_code }}-form" action="{{ route('enLanguage') }}" method="POST" class="d-none">
-                                        @csrf
-                                        <input type="hidden" name="language_code" value="{{ $language->language_code }}">
-                                        <input type="hidden" name="language" value="{{ $language->language  }}">
-                                    </form>
-                                @endforeach
-
-                            </div>
-                        </div>
-                    </ul>
+                   
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
