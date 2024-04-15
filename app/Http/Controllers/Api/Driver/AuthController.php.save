@@ -1,0 +1,230 @@
+
+<?php
+
+namespace App\Http\Controllers\Api\Driver;
+
+use App\Http\Controllers\Controller;
+use App\Models\Driver;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Validator;
+use Illuminate\Support\Facades\Auth;
+use Exception;
+
+class AuthController extends Controller
+{
+    // function for driver signup
+    public function driverSignup(Request $request)
+    {
+        $lang =  ($request->hasHeader('X-localization')) ? $request->header('X-localization') : 'en';
+
+        $data = $request->validate([
+            'driver_country_code'   => 'required',
+            'driver_mobile'         => 'required|unique:drivers',
+            'driver_email'          => 'required|email|max:64|unique:drivers|regex:/(.+)@(.+)\.(.+)/i',
+            'driver_name'           => 'required',
+            // 'driver_name_es'        => 'required_if:language,==,es|max:20',
+            'driver_password'       => 'required|min:6|max:10',
+            'driver_lattitude'      => 'required',
+            'driver_longitude'      => 'required',
+            "driver_address"        => 'required'
+            
+        ]);
+        $data['driver_password'] = Hash::make($data['driver_password']);
+        // add driver image
+
+        if ($request->hasfile('driver_image')) {
+            $driver_image = $request['driver_image']->store(
+                'driver_image',
+                'public'
+            );
+            $data['driver_image'] = $driver_image;
+        }
+        // insert data into the user table
+        $save = Driver::create($data);
+        $driver = Driver::where('id', $save->id)->first();
+        
+        // create token
+        $resultToken =  $driver->createToken('');
+        $token = $resultToken->token;
+        $token->save();
+        $driver->access_token = $resultToken->accessToken;
+        $driver->token_type = 'Bearer';
+        // return message in response in english and spanish language
+
+        return res(200, trans('CustomMessages.driver.signup_success'), $driver);
+    }
+
+    public function vehicleDetails(Request $request)
+    {
+        $data = $request->validate([
+            'driver_country_code'   => 'required',
+            'driver_mobile'         => 'required',
+            'vehicle_type'          => 'required',
+            'vehicle_number'        => 'required|string',
+            'vehicle_registration'  => 'required',
+            'driving_license'       => 'required'
+        ]);
+        // add vehicle_registration file
+        if ($request->hasfile('vehicle_registration')) {
+            $vehicle_registration = $request['vehicle_registration']->store(
+                'vehicle_registration',
+                'public'
+            );
+            $data['vehicle_registration'] = $vehicle_registration;
+        }
+        // add driving license
+        if ($request->hasfile('driving_license')) {
+            $driving_license = $request['driving_license']->store(
+                'driving_license',
+                'public'
+            );
+            $data['driving_license'] = $driving_license;
+        }
+        $data['document_status'] = 0;
+        // insert data into the user table
+        $driver = Driver::where('driver_country_code', $request->driver_country_code)->where('driver_mobile', $request->driver_mobile)->update(['vehicle_type' => $data['vehicle_type'], 'vehicle_number' => $data['vehicle_number'], 'vehicle_registration' => $data['vehicle_registration'], 'driving_license' => $data['driving_license'], 'document_status' => 1]);
+        // return message in response in english and spanish language
+        $message  = (object) [
+            'en' => 'success',
+            'es' => 'éxito'
+        ];
+        if ($driver) {
+            return res(200, trans('CustomMessages.driver.doument_add_successfuly'), (object)[]);
+        }
+    }
+
+    public function driverlogin(Request $request)
+    {
+        $lang =  ($request->hasHeader('X-localization')) ? $request->header('X-localization') : 'en';
+
+        $request->validate([
+            'driver_country_code'    => 'required|numeric',
+            'driver_mobile'          => 'required|exists:drivers',
+            'password'               => 'required'
+            // 'driver_language'        => 'required'
+        ]);
+        try {
+            // login_type =>1 for normal login and login_type =>2 for social login 
+            if ($request->login_type == 1) {
+                $driver = Driver::where('driver_country_code', $request->driver_country_code)->where('driver_mobile', $request->driver_mobile)->first();
+                if ($driver) {
+                    if (Hash::check($request->password, $driver->driver_password)) {
+                        if ($driver->document_status == 0) {
+                            // return message in response in english and spanish language
+                            $message  = (object) [
+                                'en' => 'you have not applied document for verification',
+                                'es' => 'no ha solicitado documento para verificación'
+                            ];
+                            return res(401, trans('CustomMessages.driver.not_applied'), (object)[]);
+                        } elseif ($driver->document_status == 1) {
+                            // return message in response in english and spanish language
+                            $message  = (object) [
+                                'en' => 'you document verification is under process',
+                                'es' => 'la verificación de su documento está en proceso'
+                            ];
+                            return res(402, trans('CustomMessages.driver.verification_under_process'), (object)[]);
+                        } elseif ($driver->document_status == 3) {
+                            // return message in response in english and spanish language
+                            $message  = (object) [
+                                'en' => 'Admin has rejected your document, apply again with correct document',
+                                'es' => 'El administrador ha rechazado su documento, solicite nuevamente con el documento correcto'
+                            ];
+                            return res(403, trans('CustomMessages.driver.admin_reject_doc'), (object)[]);
+                        } else {
+                            //update user language
+                            Driver::where('driver_mobile', $request->driver_mobile)->update(['driver_language' => $request->language]);
+                            $tokenResult = $driver->createToken('');
+                            $token = $tokenResult->token;
+                            $token->save();
+                            $driver->token = $tokenResult->accessToken;
+                            $driver->token_type = 'Bearer';
+                            $driver->expire_at = Carbon::parse($tokenResult->token->expire_at)->toDateTimeString();
+                            // if ($lang == 'es') {
+                            //     $driver->driver_name = $driver->driver_name_es;
+                            // }
+                            // return message in response in english and spanish language
+                            $message  = (object) [
+                                'en' => 'driver login successfully',
+                                'es' => 'controlador de inicio de sesión con éxito'
+                            ];
+                            return res(200, trans('CustomMessages.driver.login_success'), $driver);
+                        }
+                    } else {
+                        // return message in response in english and spanish language
+                        $message  = (object) [
+                            'en' => 'Password mismatch',
+                            'es' => 'Contraseña no coincide'
+                        ];
+                        return res(413, trans('CustomMessages.driver.password_missmatch'), (object)[]);
+                    }
+                } else {
+                    // return message in response in english and spanish language
+                    $message  = (object) [
+                        'en' => 'Invalid credential',
+                        'es' => 'Credencial inválida'
+                    ];
+                    return res(400, trans('CustomMessages.driver.invalid_credential'), (object)[]);
+                }
+            } else {
+                $driver = Driver::where('driver_email', $request->driver_email)->first();
+                if ($driver) {
+                    //update user language
+                    if ($request->driver_language != null) {
+                        Driver::where('driver_email', $request->driver_email)->update(['driver_language' => $request->driver_language]);
+                    }
+                    // generate token
+                    $tokenResult = $driver->createToken('');
+                    $token = $tokenResult->token;
+                    $token->save();
+                    $driver->token = $tokenResult->accessToken;
+                    $driver->token_type = 'Bearer';
+                    $driver->expire_at = Carbon::parse($tokenResult->token->expire_at)->toDateTimeString();
+                    // return message in response in english and spanish language
+                    $message  = (object) [
+                        'en' => 'driver login successfully',
+                        'es' => 'controlador de inicio de sesión con éxito'
+                    ];
+                    return res(200, trans('CustomMessages.driver.login_success'), $driver);
+                } else {
+                    // return message in response in english and spanish language
+                    $message  = (object) [
+                        'en' => 'Invalid credential',
+                        'es' => 'Credencial inválida'
+                    ];
+                    return res(400, trans('CustomMessages.driver.invalid_credential'), (object)[]);
+                }
+            }
+        } catch (Exception $ex) {
+            return res_exception($ex->getMessage());
+        }
+    }
+
+    // function for forgot password api
+    public function forgotPassword(Request $request)
+    {
+        $data = $request->validate([
+            'driver_country_code'   => 'required|numeric',
+            'driver_mobile'         => 'required|exists:drivers',
+            'password'              => 'required|min:6|max:10'
+        ]);
+        // store password into Hash format
+        $data['password'] = Hash::make($data['password']);
+        // Upate User password 
+        $driver = Driver::where('driver_country_code', $data['driver_country_code'])->where('driver_mobile', $data['driver_mobile'])->update(['driver_password' => $data['password']]);
+        if ($driver) {
+            $message  = (object) [
+                'en' => 'success',
+                'es' => 'éxito'
+            ];
+            return res(200, trans('CustomMessages.driver.success'), (object)[]);
+        } else {
+            $message  = (object) [
+                'en' => 'Driver Not Registered',
+                'es' => 'Conductora no registrada'
+            ];
+            return res(400, trans('CustomMessages.driver.driver_not_registered'), (object)[]);
+        }
+    }
+}
