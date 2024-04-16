@@ -57,23 +57,18 @@
                                              <form id="add_subcategory" enctype="multipart/form-data">
                                                   @csrf
                                                   <div class="form-group"><label></label>
-                                                       <input type="text" placeholder="Enter Category Name in English" id="category_name" name="category_name" class="form-control">
+                                                       <input type="text" placeholder="Enter Category Name" id="category_name" name="category_name" class="form-control">
                                                   </div>
                                                   <div>
                                                        <p id="validation_err" class="text-danger custom_danger_clss  mt-2 ml-2"></p>
                                                   </div>
                                                   <div class="form-group"><label></label>
-                                                       <input type="text" placeholder="Enter Category Name in Espanish" id="category_name_es" name="category_name_es" class="form-control">
+                                                       <input type="text" placeholder="Enter Category Slug" id="category_slug" name="category_slug" class="form-control">
                                                   </div>
                                                   <div>
                                                        <p id="validation_err1" class="text-danger custom_danger_clss  mt-2 ml-2"></p>
                                                   </div>
-                                                  <div class="form-group"><label></label>
-                                                       <input type="text" placeholder="Enter Category Name in Portuguese" id="category_name_pt" name="category_name_pt" class="form-control">
-                                                  </div>
-                                                  <div>
-                                                       <p id="validation_err2" class="text-danger custom_danger_clss  mt-2 ml-2"></p>
-                                                  </div>
+                                                
                                         </div>
                                         <div class="modal-footer">
                                              <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
@@ -90,8 +85,7 @@
                                         <tr>
                                              <th>#</th>
                                              <th>Category Name(English)</th>
-                                             <th>Category Name(Espanish)</th>
-                                             <th>Category Name(Portuguese)</th>
+                                             <th>Category Slug</th>
                                              <th>Action</th>
                                         </tr>
                                    </thead>
@@ -189,8 +183,7 @@
 							<tr>
 							<td> ${res.data.from++} </td>
                               <td>${value.category_name? value.category_name : '-'}</td>
-                              <td>${value.category_name_es? value.category_name_es : '-'}</td>
-                              <td>${value.category_name_pt? value.category_name_pt : '-'}</td>
+                              <td>${value.slug? value.slug : '-'}</td>
                               <td>
 					          <a href="{{url('admin/subcategory')}}/${value.id}" class="mt-1 btn btn-xs btn-primary"><i class="fa fa-eye"></i> view subcategory</a>
                                    &nbsp;

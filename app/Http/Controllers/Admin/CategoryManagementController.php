@@ -22,7 +22,7 @@ class CategoryManagementController extends Controller
         });
         $category_list = $category_list->orderBy('id', 'DESC')->paginate(10);
         foreach ($category_list as $list) {
-            $list->category_image = url('storage/' . $list->category_image);
+            // $list->category_image = url('storage/' . $list->category_image);
         }
         return ['data' => $category_list];
     }
@@ -37,11 +37,11 @@ class CategoryManagementController extends Controller
 
     public function subCategoryList(Request $request)
     {
+
         $search = $request->search;
         $category_list = Subcategory::when($search != '',function ($query) use ($search) {
             $query->where('subcategory_name', 'LIKE', '%' . $search . '%');
-            $query->where('subcategory_name_pt', 'LIKE', '%' . $search . '%');
-            $query->where('subcategory_name_es', 'LIKE', '%' . $search . '%');
+           
         });
         $category_list = $category_list->orderBy('id', 'DESC')->where('category_id',$request->category_id)->paginate(10);
         return ['data' => $category_list];
@@ -51,13 +51,12 @@ class CategoryManagementController extends Controller
     {  
         $data = $request->validate([
             'category_name'    => 'required',
-            'category_name_es' => 'required',
-            'category_name_pt' => 'required'
+            'category_slug' => 'required'
         ]);
+        // dd($data);
         $category = new Category;
         $category->category_name    = $data['category_name'];
-        $category->category_name_es = $data['category_name_es'];
-        $category->category_name_pt = $data['category_name_pt'];
+        $category->slug = $data['category_slug'];
         $category->category_status  = 1;
         $category->save();
         return true;
