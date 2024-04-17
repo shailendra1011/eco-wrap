@@ -40,7 +40,7 @@
                     <div class="ibox">
                         <div class="ibox-content">
                             <div class="col-md-12">
-                                <div class="form-group  row">
+                                {{-- <div class="form-group  row">
                                     @if(count($store->store_images))
                                     @foreach($store->store_images as $image)
                                     <div class="col-sm-3" id="oldImg{{$image->id}}">
@@ -49,16 +49,16 @@
                                             <img src="{{$image->store_image}}" class="circle-border" height="200"
                                                 width="200">
                                         </div>
-                                        {{-- <div class="gallery_old">
+                                        <div class="gallery_old">
                                             <img src="{{$image->store_image}}" alt="img" class="circle-border"
                                                 height="200" width="200">
                                             <button type="button" class="btn btn-danger mt-2 mb-4"
                                                 onclick="getImgId({{$image->id}})">Remove</button>
-                                        </div> --}}
+                                        </div> 
                                     </div>
                                     @endforeach
                                     @endif
-                                </div>
+                                </div> --}}
                                 <form action="{{route('profile.update')}}" method="POST" enctype="multipart/form-data"
                                     id="updateProfile">
                                     @csrf
@@ -67,7 +67,7 @@
                                     <input type="hidden" name="language" id="language"
                                         value="{{Session::get('locale')}}">
 
-                                    <div class="form-group  row"><label
+                                    {{-- <div class="form-group  row"><label
                                             class="col-sm-3 col-form-label">{{__('StaticWords.vendor.upload_store_image')}}</label>
 
                                         <div class="col-sm-3">
@@ -85,9 +85,9 @@
                                             <input type="file" name="images[]" id="input-file-now" class="dropify" />
 
                                         </div>
-                                    </div>
+                                    </div> --}}
                                     <div class="form-group  row"><label
-                                            class="col-sm-4 col-form-label">{{__('StaticWords.vendor.store_name')}}</label>
+                                            class="col-sm-4 col-form-label">{{__('Store name')}}</label>
                                         <div class="col-sm-7"><input type="text" value="{{$store->store_name}}"
                                                 name="store_name" class="form-control" placeholder="Enter store name">
                                             @error('store_name')
@@ -97,7 +97,7 @@
                                             @enderror
                                         </div>
                                     </div>
-                                    <div class="form-group  row"><label
+                                    {{-- <div class="form-group  row"><label
                                             class="col-sm-4 col-form-label">{{__('StaticWords.vendor.store_name_es')}}</label>
                                         <div class="col-sm-7"><input type="text" value="{{$store->store_name_es}}"
                                                 name="store_name_es" class="form-control"
@@ -108,10 +108,10 @@
                                             </p>
                                             @enderror
                                         </div>
-                                    </div>
+                                    </div> --}}
                                     <div class="form-group  row"><label
                                             class="col-sm-4 col-form-label">{{__('StaticWords.vendor.store_mobile')}}</label>
-                                        <div class="col-sm-1"><input type="text" value="{{$store->store_country_code}}"
+                                        {{-- <div class="col-sm-1"><input type="text" value="{{$store->store_country_code}}"
                                                 name="store_country_code" class="form-control"
                                                 placeholder="Enter your mobile no">
                                             @error('store_country_code')
@@ -119,7 +119,7 @@
                                                 <strong id="error">{{ $message }}</strong>
                                             </p>
                                             @enderror
-                                        </div>
+                                        </div> --}}
                                         <div class="col-sm-6"><input type="text" minlength="10" maxlength="10"
                                                 value="{{$store->store_mobile}}" name="store_mobile"
                                                 class="form-control" placeholder="Enter your mobile no">

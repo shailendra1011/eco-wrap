@@ -16,12 +16,16 @@
                     <img alt="image" class="rounded-circle"
                         src="{{Auth::user() && count(App\Models\StoreImage::where('store_id',Auth::user()->id)->get())?App\Models\StoreImage::where('store_id',Auth::user()->id)->inRandomOrder()->first()->store_image:asset('admin/userprofile.png')}}"
                         height="60" width="60" />
-
                 </div>
             </li>
+
             <li class="{{Request::is('home')?'active':''}}">
                 <a href="{{route('home')}}"><i class="fa fa-th-large"></i> <span
                         class="nav-label">{{__('StaticWords.vendor.dashboard')}}</span></a>
+            </li>
+            <li class="{{Request::is('addProfileInfo*')?'active':''}}">
+                <a href="{{route('addProfileInfo')}}"><i class="fa fa-shopping-cart"></i> <span
+                        class="nav-label">{{__('StaticWords.vendor.profile')}}</span></a>
             </li>
             <!-- <li class="{{Request::is('/')?'active':''}}">
                 <a href="{{route('store.profile')}}"><i class="fa fa-bank"></i> <span class="nav-label">{{__('StaticWords.vendor.create_business_account')}}</span></a>

@@ -21,6 +21,10 @@ class VendorProfileController extends Controller
 
     public function updateProfile(Request $request)
     {
+        //echo "<pre>"; print_r($request->store_name); 
+        // echo "<pre>"; print_r($request->store_mobile); 
+        
+        // die();
         try {
             if ($request->deletedImageId) {
                 $imageIds = explode(',', $request->deletedImageId);
@@ -62,13 +66,16 @@ class VendorProfileController extends Controller
                     return redirect()->route('profile')->with(['message' => $msg, 'type' => 'failed']);
                 }
             } else {
+                // echo $request->store_id; die();
                 $storeDataUpdated = Store::where('id', $request->store_id)
                     ->update([
                         'store_name' => $request->store_name,
-                        'store_name_es' => $request->store_name_es,
-                        'store_country_code' => $request->store_country_code,
+                        // 'store_name_es' => $request->store_name_es,
+                        // 'store_country_code' => $request->store_country_code,
                         'store_mobile' => $request->store_mobile,
                     ]);
+
+
                 if ($storeDataUpdated) {
                     $msg = $request->language == 'en' ? 'Profile updated successfully !' : 'Profile updated exitosamente !';
                     return redirect()->route('profile')->with(['message' => $msg, 'type' => 'success']);
@@ -128,5 +135,11 @@ class VendorProfileController extends Controller
 
             return response()->json(['message' => $msg, 'status' => FAIL], FAIL);
         }
+    }
+
+    public function addProfileInfo(Request $request){
+
+        
+        return view('vendor.edit-vendor-profile-info');
     }
 }

@@ -55,7 +55,7 @@ class RegisterController extends Controller
 
        
         return Validator::make($data, [
-            'store_image' => ['required'],
+            // 'store_image' => ['required'],
             'store_mobile' => ['required'],
             'store_name' => ['required', 'nullable', 'string', 'max:255'],
             'category' => ['required'],
@@ -86,16 +86,16 @@ class RegisterController extends Controller
         ];
         // dd($insertStoreData);
         $storeData = Store::create($insertStoreData);
-        if ($storeData) {
-            $url = uploadImage($data['store_image'], 'storeImage');
+        // if ($storeData) {
+        //     $url = uploadImage($data['store_image'], 'storeImage');
 
-            StoreImage::create([
-                'store_id' => $storeData->id,
-                'store_image' => $url
-            ]);
+        //     StoreImage::create([
+        //         'store_id' => $storeData->id,
+        //         'store_image' => $url
+        //     ]);
 
-            // Store::where('id', $storeData->id)->update(['trial_ends_at' => now()->addDays(30),]);
-        }
+        //     // Store::where('id', $storeData->id)->update(['trial_ends_at' => now()->addDays(30),]);
+        // }
 
         return $storeData;
     }

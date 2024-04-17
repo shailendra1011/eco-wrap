@@ -53,6 +53,7 @@ Route::group(['middleware' => 'setLocalLanguage'], function () {
         // Route::group(['middleware' => ''], function () {
 
             Route::get('/home', 'HomeController@index')->name('home');
+           
 
             Route::group(['namespace' => 'Vendor'], function () {
 
@@ -81,6 +82,7 @@ Route::group(['middleware' => 'setLocalLanguage'], function () {
 
                 // update profile route start here
                 Route::get('/profile', 'VendorProfileController@index')->name('profile');
+                Route::get('/addProfileInfo', 'VendorProfileController@addProfileInfo')->name('addProfileInfo');
                 Route::post('/update-profile', 'VendorProfileController@updateProfile')->name('profile.update');
                 Route::post('/update-password', 'VendorProfileController@updatePassword')->name('password.update');
 
