@@ -137,9 +137,114 @@ class VendorProfileController extends Controller
         }
     }
 
-    public function addProfileInfo(Request $request){
+    public function addProfileInfo(Request $request){      
+        $user_id = Auth::user()->id; 
+        $usr_details = store::find($user_id);
+        return view('vendor.edit-vendor-profile-info',['usr_details'=>$usr_details]);
+    }
+    // Save vendor profile Info
 
+    // public function saveVendorProfileInfo(Request $request){
+    //      $user_id = Auth::user()->id; 
+    //      $data =  $request->validate([
+    //         'gst'        => 'required',
+    //         'payment_receiving_mode'  => 'required',
+    //         'bank_name'      => 'required',
+    //         'ifsc_code'      => 'required',
+    //         'account_no'     => 'required',
+    //         'upi_id'        => 'required',
+    //     ]);
+
+    //      // Check if adhar_image field exists in the request
+    //     if ($request->hasFile('adhar_image')) {
+    //         $data['adhar_image'] = 'required';
+    //     }
+
+    //     // Check if cancelled_cheque_image field exists in the request
+    //     if ($request->hasFile('cancelled_cheque_image')) {
+    //         $data['cancelled_cheque_image'] = 'required';
+    //     }
+
+
+    //     $updated = store::where('id', $user_id)->update([
+    //         'gst' =>  $request->gst,
+    //         'payment_receiving_mode' =>  $request->payment_receiving_mode,
+    //         'bank_name'  =>  $request->bank_name,
+    //         'ifsc_code'  =>  $request->ifsc_code,
+    //         'account_no'  =>  $request->account_no,
+    //         'upi_id' =>  $request->upi_id
+
+    //     ]);
+
+    //         // If the adhar_image field exists in the request, update the adhar_image field
+    //     if ($request->hasFile('adhar_image')) {
+    //         $updatedAdharImage = store::where('id', $user_id)->update([
+    //             'adhar_image' =>  $request->adhar_image->store('uploads','public')
+    //         ]);
+    //     }
+
+    //     // If the cancelled_cheque_image field exists in the request, update the cancelled_cheque_image field
+    //     if ($request->hasFile('cancelled_cheque_image')) {
+    //         $updatedCancelledChequeImage = store::where('id', $user_id)->update([
+    //             'cancelled_cheque_image'  =>  $request->cancelled_cheque_image->store('uploads','public')
+    //         ]);
+    //     }
+
+    //     // If any of the updates were successful
+    //     if($updated || $updatedAdharImage || $updatedCancelledChequeImage){
+    //         // Redirect back with a success message
+    //         return redirect()->route('addProfileInfo');
+    //     }
         
-        return view('vendor.edit-vendor-profile-info');
+    // }
+    
+
+    public function saveVendorProfileInfo(Request $request){
+        $user_id = Auth::user()->id; 
+        $getstore = store::find($user_id)->toArray();
+        if(!empty($getstore['adhar_image']) && !empty($getstore['cancelled_cheque_image'])){
+            $data =  $request->validate([
+                'gst'        => 'required',
+                'payment_receiving_mode'  => 'required',
+                'bank_name'      => 'required',
+                'ifsc_code'      => 'required',
+                'account_no'     => 'required',
+                'upi_id'        => 'required'
+            ]);
+        }else{
+            $data =  $request->validate([
+                'gst'        => 'required',
+                'adhar_image' => 'required',
+                'payment_receiving_mode'  => 'required',
+                'bank_name'      => 'required',
+                'ifsc_code'      => 'required',
+                'account_no'     => 'required',
+                'cancelled_cheque_image' => 'required',
+                'upi_id'        => 'required'
+            ]);
+        }
+        $updatedData = [
+            'gst' => $request->gst,
+            'payment_receiving_mode' => $request->payment_receiving_mode,
+            'bank_name' => $request->bank_name,
+            'ifsc_code' => $request->ifsc_code,
+            'account_no' => $request->account_no,
+            'upi_id' => $request->upi_id
+        ];
+    
+
+        if ($request->hasFile('adhar_image')) {
+            $updatedData['adhar_image'] = $request->adhar_image->store('uploads', 'public');
+        }
+
+        if ($request->hasFile('cancelled_cheque_image')) {
+            $updatedData['cancelled_cheque_image'] = $request->cancelled_cheque_image->store('uploads', 'public');
+        }
+        $updated = store::where('id', $user_id)->update($updatedData);
+    
+        if ($updated) {
+            return redirect()->route('addProfileInfo');
+        }
+        
     }
 }

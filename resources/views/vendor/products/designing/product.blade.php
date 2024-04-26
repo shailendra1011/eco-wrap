@@ -11,13 +11,13 @@
                     <div class="col-md-10 float-left">
                         <div class="ibox float-e-margins no-border">
                             <div class="ibox-content" style="border: none;">
-                                <h2 class="no-margins">{{__('StaticWords.vendor.total_product')}} : <span id="data_count">0</span></h2>
+                                <h2 class="no-margins">Total Product : <span id="data_count">0</span></h2>
                             </div>
                         </div>
                     </div>
                     <div class=" col-md-2 float-right">
-                      <a href="{{route('product.new')}}">  <button type="button" class="btn  btn-primary">
-                            <i class="fa fa-plus mr-2"></i>{{__('StaticWords.vendor.new_product')}}
+                      <a href="{{route('product.new')}}">  <button type="button" class="btn btn-primary {{$getslug->slug}}">
+                            <i class="fa fa-plus mr-2"></i>New Product
                         </button></a>
                     </div>                    
                 </div>

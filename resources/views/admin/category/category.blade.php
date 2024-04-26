@@ -37,7 +37,7 @@
                          </div>
                          <div class="row" style="margin-bottom: 15px;">
                               <div class="col-3 ">
-                                   <input type="text" id="search" class="form-control" placeholder="Search by  subcategory name" onkeyup="get_data()">
+                                   <input type="text" id="search" class="form-control" placeholder="Search by Category name" onkeyup="get_data()">
                               </div>
                               <div class="col-md-2 float-right" style="margin-left: auto;">
                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
@@ -185,8 +185,6 @@
                               <td>${value.category_name? value.category_name : '-'}</td>
                               <td>${value.slug? value.slug : '-'}</td>
                               <td>
-					          <a href="{{url('admin/subcategory')}}/${value.id}" class="mt-1 btn btn-xs btn-primary"><i class="fa fa-eye"></i> view subcategory</a>
-                                   &nbsp;
                                    <a href="javascript:void(0)" onclick="deleteCategory(${value.id})" class="mt-1 btn btn-xs btn-danger"><i class="fa fa-trash"></i> Delete</a>
                               </td>
                             `;

@@ -90,7 +90,7 @@
                                     class="fa fa-caret-down fa-2x"></i></b>
                             <ul class="dropdown-menu animated fadeInLeft m-t-xs">
                                 <li><a class="dropdown-item" href="{{route('profile')}}"><i
-                                            class="fa fa-user mr-2"></i>{{__('StaticWords.vendor.profile')}}</a></li>
+                                            class="fa fa-user mr-2"></i>Profile</a></li>
                                 <li class="dropdown-divider"></li>
                                 <li> <a class=" dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                     document.getElementById('logout-form').submit();"> <i class="fa fa-sign-out"></i>

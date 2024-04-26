@@ -37,8 +37,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->app->singleton(StripeClient::class, function () {
-            return new StripeClient(config('stripe.secret'));
-        });
+        // $this->app->singleton(StripeClient::class, function () {
+        //     return new StripeClient(config('stripe.secret'));
+        // });
     }
 }

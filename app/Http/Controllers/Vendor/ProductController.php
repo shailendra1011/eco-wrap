@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\ProductImage;
 use App\Models\Subcategory;
+use App\Models\Admin\Category;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
@@ -57,46 +58,24 @@ class ProductController extends Controller
         }
 
         $loginUser = Auth::user();
-        // checkin login user category
-        if ($loginUser->category_id == 1) {
-            return view('vendor.products.food.product');
-        }
-        if ($loginUser->category_id == 2) {
-            return view('vendor.products.pharmacy.product');
-        }
-        if ($loginUser->category_id == 3) {
-            return view('vendor.products.product.product');
-        }
+        // echo "<pre>"; print_r($loginUser); die();   
+        $getslug = Category::find($loginUser->category_id);
+
+        return view('vendor.products.'.$getslug->slug.'.product', ['getslug'=>$getslug]);
     }
 
     public function showAddForm()
     {
         $loginUser = Auth::user();
-        $subCategories = Subcategory::where('category_id', $loginUser->category_id);
-        if (Session::get('locale') == 'en') {
-            $subCategories = $subCategories->select('id', 'subcategory_name')->get();
-        } else {
-            $subCategories = $subCategories->select('id', 'subcategory_name_es as subcategory_name')->get();
-        }
-
-
-        // checking login user category
-        if ($loginUser->category_id == 1) {
-            return view('vendor.products.food.add-product', ['subcategories' => $subCategories]);
-        }
-        if ($loginUser->category_id == 2) {
-            return view('vendor.products.pharmacy.add-product', ['subcategories' => $subCategories]);
-        }
-        if ($loginUser->category_id == 3) {
-            return view('vendor.products.product.add-product', ['subcategories' => $subCategories]);
-        }
+        $getslug   = Category::find($loginUser->category_id);  // checking login user category            
+        return view('vendor.products.'.$getslug->slug.'.add-product');
+      
     }
 
     public function addProduct(Request $request)
     {
         $loginUserCategory = Auth::user()->category_id;
-        if ($loginUserCategory == 1) { // for food
-            if ($request->language == 'en') {
+        if ($loginUserCategory == 1) { // for food    
                 $validData = $request->validate([
                     'product_name' => 'required',
                     'product_name_es' => 'nullable',
@@ -113,47 +92,8 @@ class ProductController extends Controller
                     'description_es' => 'nullable',
                     'images[]' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
                 ]);
-            }
-            if ($request->language == 'es') {
-                $validData = $request->validate([
-                    'product_name_es' => 'required',
-                    'product_name' => 'nullable',
-                    'category' => 'required',
-                    'price' => 'required|numeric',
-                    'discount' => 'nullable',
-                    'delivery_charge' => 'required|numeric',
-                    'size' => 'nullable',
-                    'quantity' => 'required|numeric',
-                    'product_status' => 'nullable',
-                    'description' => 'nullable',
-                    'description_es' => 'required',
-                    'other_info' => 'nullable',
-                    'other_info_es' => 'required',
-                    'images[]' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
-                ]);
-            }
-
-            if ($request->language == 'pt') {
-                $validData = $request->validate([
-                    'product_name_pt' => 'required',
-                    'product_name' => 'nullable',
-                    'category' => 'required',
-                    'price' => 'required|numeric',
-                    'discount' => 'nullable',
-                    'delivery_charge' => 'required|numeric',
-                    'size' => 'nullable',
-                    'quantity' => 'required|numeric',
-                    'product_status' => 'nullable',
-                    'description' => 'nullable',
-                    'description_pt' => 'required',
-                    'other_info' => 'nullable',
-                    'other_info_pt' => 'required',
-                    'images[]' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
-                ]);
-            }
         }
         if ($loginUserCategory == 3) { // for product
-            if ($request->language == 'en') {
                 $validData = $request->validate([
                     'product_name' => 'required',
                     'product_name_es' => 'nullable',
@@ -170,46 +110,8 @@ class ProductController extends Controller
                     'description_es' => 'nullable',
                     'images[]' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
                 ]);
-            }
-            if ($request->language == 'es') {
-                $validData = $request->validate([
-                    'product_name_es' => 'required',
-                    'product_name' => 'nullable',
-                    'category' => 'required',
-                    'price' => 'required|numeric',
-                    'discount' => 'nullable',
-                    'delivery_charge' => 'required|numeric',
-                    'size' => 'required',
-                    'quantity' => 'required|numeric',
-                    'product_status' => 'nullable',
-                    'description' => 'nullable',
-                    'description_es' => 'required',
-                    'other_info' => 'nullable',
-                    'other_info_es' => 'required',
-                    'images[]' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
-                ]);
-            }
-            if ($request->language == 'pt') {
-                $validData = $request->validate([
-                    'product_name_pt' => 'required',
-                    'product_name' => 'nullable',
-                    'category' => 'required',
-                    'price' => 'required|numeric',
-                    'discount' => 'nullable',
-                    'delivery_charge' => 'required|numeric',
-                    'size' => 'required',
-                    'quantity' => 'required|numeric',
-                    'product_status' => 'nullable',
-                    'description' => 'nullable',
-                    'description_pt' => 'required',
-                    'other_info' => 'nullable',
-                    'other_info_pt' => 'required',
-                    'images[]' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
-                ]);
-            }
         }
         if ($loginUserCategory == 2) { // for parmacy
-            if ($request->language == 'en') {
                 $validData = $request->validate([
                     'product_name' => 'required',
                     'product_name_es' => 'nullable',
@@ -233,57 +135,6 @@ class ProductController extends Controller
                     'description_es' => 'nullable',
                     'images[]' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
                 ]);
-            }
-            if ($request->language == 'es') {
-                $validData = $request->validate([
-                    'product_name_es' => 'required',
-                    'product_name' => 'nullable',
-                    'category' => 'required',
-                    'price' => 'required|numeric',
-                    'discount' => 'nullable',
-                    'delivery_charge' => 'required|numeric',
-                    'size' => 'nullable',
-                    'quantity' => 'required|numeric',
-                    'product_status' => 'nullable',
-                    'manufacturer_name' => 'nullable',
-                    'manufacturer_name_es' => 'required',
-                    'ingredients' => 'nullable',
-                    'ingredients_es' => 'required',
-                    'direction_to_use' => 'nullable',
-                    'direction_to_use_es' => 'required',
-                    'sachet_capsule' => 'nullable',
-                    'description' => 'nullable',
-                    'description_es' => 'required',
-                    'other_info' => 'nullable',
-                    'other_info_es' => 'required',
-                    'images[]' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
-                ]);
-            }
-            if ($request->language == 'pt') {
-                $validData = $request->validate([
-                    'product_name_pt' => 'required',
-                    'product_name' => 'nullable',
-                    'category' => 'required',
-                    'price' => 'required|numeric',
-                    'discount' => 'nullable',
-                    'delivery_charge' => 'required|numeric',
-                    'size' => 'nullable',
-                    'quantity' => 'required|numeric',
-                    'product_status' => 'nullable',
-                    'manufacturer_name' => 'nullable',
-                    'manufacturer_name_pt' => 'required',
-                    'ingredients' => 'nullable',
-                    'ingredients_pt' => 'required',
-                    'direction_to_use' => 'nullable',
-                    'direction_to_use_pt' => 'required',
-                    'sachet_capsule' => 'nullable',
-                    'description' => 'nullable',
-                    'description_pt' => 'required',
-                    'other_info' => 'nullable',
-                    'other_info_pt' => 'required',
-                    'images[]' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
-                ]);
-            }
         }
 
         try {
@@ -301,14 +152,10 @@ class ProductController extends Controller
                             'product_id' => $productId,
                             'product_image' => $url
                         ]);
-                    }
-
-                    $msg = $request->language == 'en' ? 'Product added successfully !' : 'Producto agregado exitosamente !';
-                    return redirect()->route('product')->with(['message' => $msg, 'type' => 'success']);
+                    }              
+                    return redirect()->route('product')->with(['message' => 'Product added successfully', 'type' => 'success']);
                 } else {
-                    $msg = $request->language == 'en' ? 'Something went wrong !' : 'Algo salió mal !';
-
-                    return redirect()->route('product')->with(['message' => $msg, 'type' => 'failed']);
+                    return redirect()->route('product')->with(['message' => 'Something went wrong', 'type' => 'failed']);
                 }
             }
         } catch (Exception $ex) {

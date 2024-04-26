@@ -34,13 +34,8 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
         // Category Management Controller routes
         Route::get('/category', 'CategoryManagementController@index')->name('admin.category');
         Route::post('category/list', 'CategoryManagementController@categoryList')->name('category/list');
-        Route::get('/subcategory/{id}', 'CategoryManagementController@subCategory')->name('admin.subcategory/{id}');
-        Route::post('subcategory/list', 'CategoryManagementController@subCategoryList')->name('subcategory/list');
-        Route::post('subcategory/status', 'CategoryManagementController@subCategoryStatus')->name('subcategory/status');
         Route::post('add/category', 'CategoryManagementController@addCategory')->name('add/category');
         Route::delete('category/{category_id}', 'CategoryManagementController@destroyCategory')->name('delete/category');
-        Route::post('add/subcategory', 'CategoryManagementController@addSubCategory')->name('add/subcategory');
-        Route::delete('subcategory/{subcategory_id}', 'CategoryManagementController@destroySubcategory')->name('delete/subcategory');
 
 
         Route::resource('faq','FaqController')->names('admin.faq');

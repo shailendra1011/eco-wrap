@@ -17,7 +17,7 @@
                         </div>
                     </div>
                     <div class=" col-md-2 float-right">
-                      <a href="{{route('product.new')}}">  <button type="button" class="btn  btn-primary">
+                      <a href="{{route('product.new')}}">  <button type="button" class="btn  btn-primary {{$getslug->slug}}">
                             <i class="fa fa-plus mr-2"></i>{{__('StaticWords.vendor.new_product')}}
                         </button></a>
                     </div>                    

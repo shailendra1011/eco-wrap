@@ -23,10 +23,6 @@
                 <a href="{{route('home')}}"><i class="fa fa-th-large"></i> <span
                         class="nav-label">{{__('StaticWords.vendor.dashboard')}}</span></a>
             </li>
-            <li class="{{Request::is('addProfileInfo*')?'active':''}}">
-                <a href="{{route('addProfileInfo')}}"><i class="fa fa-shopping-cart"></i> <span
-                        class="nav-label">{{__('StaticWords.vendor.profile')}}</span></a>
-            </li>
             <!-- <li class="{{Request::is('/')?'active':''}}">
                 <a href="{{route('store.profile')}}"><i class="fa fa-bank"></i> <span class="nav-label">{{__('StaticWords.vendor.create_business_account')}}</span></a>
             </li> -->
@@ -63,18 +59,17 @@
                     </li>
                     <li class="{{Request::is('orders/hall')?'active':''}}"><a
                             href="{{route('food.table.orders')}}">{{__('StaticWords.vendor.hall_order')}}</a></li>
-
-
                 </ul>
             </li>
             @endif
-
-           
-           
             <li class="{{Request::is('earning*')?'active':''}}">
                 <a href="{{route('earning')}}"><i class="fa fa-eur"></i> <span
                         class="nav-label">Total Revenue</span></a>
             </li> 
+            <li class="{{Request::is('addProfileInfo*')?'active':''}}">
+                <a href="{{route('addProfileInfo')}}"><i class="fa fa-shopping-cart"></i> <span
+                        class="nav-label">Account Management</span></a>
+            </li>
 
         </ul>
     </div>

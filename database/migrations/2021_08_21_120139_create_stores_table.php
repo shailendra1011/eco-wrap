@@ -19,6 +19,16 @@ class CreateStoresTable extends Migration
             $table->bigInteger('store_mobile');
             $table->string('email');
             $table->string('address');
+
+            $table->string('gst')->nullable();;
+            $table->string('adhar_image')->nullable();
+            $table->string('payment_receiving_mode')->nullable();
+            $table->string('bank_name')->nullable();
+            $table->string('ifsc_code')->nullable();
+            $table->string('account_no')->nullable();
+            $table->string('cancelled_cheque_image')->nullable();
+            $table->string('upi_id')->nullable();
+
             $table->string('store_address')->nullable();
             $table->string('store_url')->nullable();
             $table->unsignedBigInteger('category_id');
